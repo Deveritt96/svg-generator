@@ -6,7 +6,7 @@ Generates and icon using SVG technology and has an accompanying test.
 
 ## Video
 
-<img src="Null" />
+
 
 
 ## installation
