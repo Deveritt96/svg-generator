@@ -36,6 +36,23 @@ class Rectangle {
     }
 }
 
+// Define the Triangle class
+class Triangle {
+    constructor(width, height, fillColor, text, textColor, textSize) {
+        this.width = width;
+        this.height = height;
+        this.fillColor = fillColor;
+        this.text = text;
+        this.textColor = textColor;
+        this.textSize = textSize;
+    }
+
+    generateSVG() {
+        return `<polygon points="${this.width/2},0 ${this.width}, ${this.height} 0, ${this.height}" fill="${this.fillColor}" />
+        <text x="${this.width / 2}" y="${this.height / 2}" text-anchor="middle" alignment-baseline="middle" font-size="${this.textSize}px" fill="${this.textColor}">${this.text}</text>`;
+    }
+}
+
 // Prompting the user for customization options
 inquirer.prompt([
     {
@@ -57,11 +74,11 @@ inquirer.prompt([
         default: 'red'
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'shape',
-        message: 'Choose the type of shape (circle, rectangle):',
+        message: 'Choose the type of shape:',
         choices: ['Circle', 'Rectangle', 'Triangle'],
-        default: 'circle'
+        default: 'Circle'
     },
     {
         type: 'input',
@@ -89,10 +106,12 @@ inquirer.prompt([
     }
 ]).then(answers => {
     let shape;
-    if (answers.shape === 'circle') {
+    if (answers.shape === 'Circle') {
         shape = new Circle(answers.width, answers.height, answers.fillColor, answers.text, answers.textColor, answers.textSize);
-    } else if (answers.shape === 'rectangle') {
+    } else if (answers.shape === 'Rectangle') {
         shape = new Rectangle(answers.width, answers.height, answers.fillColor, answers.text, answers.textColor, answers.textSize);
+    } else if (answers.shape === 'Triangle') {
+        shape = new Triangle(answers.width, answers.height, answers.fillColor, answers.text, answers.textColor, answers.textSize);
     }
 
     const svgContent = `<svg width="${answers.width}" height="${answers.height}" xmlns="http://www.w3.org/2000/svg">${shape.generateSVG()}</svg>`;
