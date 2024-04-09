@@ -12,7 +12,8 @@ class Circle {
         this.textSize = textSize;
     }
 
-    generateSVG() {
+    // Method to render the circle as SVG markup
+    render() {
         const radius = Math.min(this.width, this.height) / 2;
         return `<circle cx="${this.width / 2}" cy="${this.height / 2}" r="${radius}" fill="${this.fillColor}" />
         <text x="${this.width / 2}" y="${this.height / 2}" text-anchor="middle" alignment-baseline="middle" font-size="${this.textSize}px" fill="${this.textColor}">${this.text}</text>`;
@@ -30,7 +31,8 @@ class Rectangle {
         this.textSize = textSize;
     }
 
-    generateSVG() {
+    // Method to render the rectangle as SVG markup
+    render() {
         return `<rect x="0" y="0" width="${this.width}" height="${this.height}" fill="${this.fillColor}" />
         <text x="${this.width / 2}" y="${this.height / 2}" text-anchor="middle" alignment-baseline="middle" font-size="${this.textSize}px" fill="${this.textColor}">${this.text}</text>`;
     }
@@ -47,7 +49,8 @@ class Triangle {
         this.textSize = textSize;
     }
 
-    generateSVG() {
+    // Method to render the triangle as SVG markup
+    render() {
         return `<polygon points="${this.width/2},0 ${this.width}, ${this.height} 0, ${this.height}" fill="${this.fillColor}" />
         <text x="${this.width / 2}" y="${this.height / 2}" text-anchor="middle" alignment-baseline="middle" font-size="${this.textSize}px" fill="${this.textColor}">${this.text}</text>`;
     }
@@ -114,7 +117,7 @@ inquirer.prompt([
         shape = new Triangle(answers.width, answers.height, answers.fillColor, answers.text, answers.textColor, answers.textSize);
     }
 
-    const svgContent = `<svg width="${answers.width}" height="${answers.height}" xmlns="http://www.w3.org/2000/svg">${shape.generateSVG()}</svg>`;
+    const svgContent = `<svg width="${answers.width}" height="${answers.height}" xmlns="http://www.w3.org/2000/svg">${shape.render()}</svg>`;
 
     console.log('Generated SVG content:');
     console.log(svgContent);
@@ -131,3 +134,9 @@ inquirer.prompt([
         });
     }
 });
+
+module.exports = {
+    Circle,
+    Rectangle,
+    Triangle
+};
