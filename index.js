@@ -1,6 +1,41 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 
+// Define the Circle class
+class Circle {
+    constructor(width, height, fillColor, text, textColor, textSize) {
+        this.width = width;
+        this.height = height;
+        this.fillColor = fillColor;
+        this.text = text;
+        this.textColor = textColor;
+        this.textSize = textSize;
+    }
+
+    generateSVG() {
+        const radius = Math.min(this.width, this.height) / 2;
+        return `<circle cx="${this.width / 2}" cy="${this.height / 2}" r="${radius}" fill="${this.fillColor}" />
+        <text x="${this.width / 2}" y="${this.height / 2}" text-anchor="middle" alignment-baseline="middle" font-size="${this.textSize}px" fill="${this.textColor}">${this.text}</text>`;
+    }
+}
+
+// Define the Rectangle class
+class Rectangle {
+    constructor(width, height, fillColor, text, textColor, textSize) {
+        this.width = width;
+        this.height = height;
+        this.fillColor = fillColor;
+        this.text = text;
+        this.textColor = textColor;
+        this.textSize = textSize;
+    }
+
+    generateSVG() {
+        return `<rect x="0" y="0" width="${this.width}" height="${this.height}" fill="${this.fillColor}" />
+        <text x="${this.width / 2}" y="${this.height / 2}" text-anchor="middle" alignment-baseline="middle" font-size="${this.textSize}px" fill="${this.textColor}">${this.text}</text>`;
+    }
+}
+
 // Prompting the user for customization options
 inquirer.prompt([
     {
@@ -24,7 +59,8 @@ inquirer.prompt([
     {
         type: 'input',
         name: 'shape',
-        message: 'Enter the type of shape (e.g., circle, rectangle):',
+        message: 'Choose the type of shape (circle, rectangle):',
+        choices: ['Circle', 'Rectangle', 'Triangle'],
         default: 'circle'
     },
     {
@@ -52,17 +88,14 @@ inquirer.prompt([
         default: true
     }
 ]).then(answers => {
-    // Generate SVG string based on user input
-    let svgContent = `<svg width="${answers.width}" height="${answers.height}" xmlns="http://www.w3.org/2000/svg">`;
+    let shape;
     if (answers.shape === 'circle') {
-        svgContent += `<circle cx="${answers.width / 2}" cy="${answers.height / 2}" r="${Math.min(answers.width, answers.height) / 2}" fill="${answers.fillColor}" />
-        <text x="${answers.width / 2}" y="${answers.height / 2}" text-anchor="middle" alignment-baseline="middle" font-size="${answers.textSize}px" fill="${answers.textColor}">${answers.text}</text>`;
+        shape = new Circle(answers.width, answers.height, answers.fillColor, answers.text, answers.textColor, answers.textSize);
     } else if (answers.shape === 'rectangle') {
-        svgContent += `<rect x="0" y="0" width="${answers.width}" height="${answers.height}" fill="${answers.textColor}" />
-        <text x="${answers.width / 2}" y="${answers.height / 2}" text-anchor="middle" alignment-baseline="middle" font-size="${answers.textSize}px" fill="${answers.textColor}">${answers.text}</text>`;
+        shape = new Rectangle(answers.width, answers.height, answers.fillColor, answers.text, answers.textColor, answers.textSize);
     }
 
-    svgContent += `</svg>`;
+    const svgContent = `<svg width="${answers.width}" height="${answers.height}" xmlns="http://www.w3.org/2000/svg">${shape.generateSVG()}</svg>`;
 
     console.log('Generated SVG content:');
     console.log(svgContent);
