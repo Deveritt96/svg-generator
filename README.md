@@ -8,6 +8,10 @@ Generates and icon using SVG technology and has an accompanying test.
 
 
 
+https://github.com/Deveritt96/svg-generator/assets/149841074/b5882457-b345-471a-9a98-e6dc54c6dc86
+
+
+
 
 ## installation
 
