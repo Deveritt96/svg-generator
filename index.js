@@ -54,7 +54,7 @@ inquirer.prompt([
         type: 'input',
         name: 'fillColor',
         message: 'Enter the fill color of the shape (in hex format, e.g., #ff0000 for red):',
-        default: '#000000'
+        default: 'red'
     },
     {
         type: 'input',
